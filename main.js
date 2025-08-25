@@ -168,6 +168,6 @@ function play() {
 
 play();
 
-// document.querySelector("form").addEventListener("submit", (e) => {
-//   let formData = new FormData(e.target);
-// });
+document.querySelector("form").addEventListener("submit", (e) => {
+  let formData = new FormData(e.target);
+});
