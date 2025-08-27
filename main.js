@@ -151,24 +151,41 @@ function play(formData) {
             console.log("Run O");
           }
         }
-      }
-      if (isOver()) {
-        result.style.display = "block";
-        if (isOver().isWinnerX) {
-          result.textContent = playerOne.win();
-          playerOne.score++;
-        } else if (isOver().isWinnerO) {
-          result.textContent = playerTwo.win();
-          playerTwo.score++;
-        } else {
-          result.textContent = "Draw";
-          result.style.color = "gray";
+        if (isOver()) {
+          result.style.display = "block";
+          if (isOver().isWinnerX) {
+            result.textContent = playerOne.win();
+            playerOne.score++;
+          } else if (isOver().isWinnerO) {
+            result.textContent = playerTwo.win();
+            playerTwo.score++;
+          } else {
+            result.textContent = "Draw";
+            result.style.color = "gray";
+          }
+          document.getElementById("username1").textContent =
+            playerOne.name + ": " + playerOne.score;
+          document.getElementById("username2").textContent =
+            playerTwo.name + ": " + playerTwo.score;
         }
-        document.getElementById("username1").textContent =
-          playerOne.name + ": " + playerOne.score;
-        document.getElementById("username2").textContent =
-          playerTwo.name + ": " + playerTwo.score;
       }
+    });
+    document.querySelector(".newGame").addEventListener("click", () => {
+      dialog.showModal();
+    });
+    document.querySelector(".yes").addEventListener("click", () => {
+      dialog.close();
+      document.querySelector("form").reset();
+      document.querySelector("form").style.display = "flex";
+      board.resetGame();
+      document.querySelectorAll(".box").forEach((box) => {
+        box.textContent = "";
+      });
+      result.textContent = "";
+      newGame();
+    });
+    document.querySelector(".no").addEventListener("click", () => {
+      dialog.close();
     });
   });
 }
@@ -189,20 +206,8 @@ const dialog = document.querySelector("dialog");
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   let formData = new FormData(e.target);
+  play(formData);
   document.querySelector(".gameBoard").style.display = "grid";
   document.querySelector(".newGame").style.display = "block";
-  play(formData);
   e.target.style.display = "none";
-  document.querySelector(".newGame").addEventListener("click", () => {
-    dialog.showModal();
-  });
-  document.querySelector(".yes").addEventListener("click", () => {
-    dialog.close();
-    e.target.reset();
-    e.target.style.display = "flex";
-    newGame();
-  });
-  document.querySelector(".no").addEventListener("click", () => {
-    dialog.close();
-  });
 });
