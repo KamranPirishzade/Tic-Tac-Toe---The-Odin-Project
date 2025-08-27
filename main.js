@@ -111,13 +111,13 @@ function play(formData) {
   let board = new GameBoard();
   const playerOne = createUser(formData.get("player1"), 1);
   const playerTwo = createUser(formData.get("player2"), 2);
+  const result = document.getElementById("winner");
+  const resetBtn = document.querySelector(".reset");
   document.getElementById("username1").textContent =
     playerOne.name + ": " + playerOne.score;
   document.getElementById("username2").textContent =
     playerTwo.name + ": " + playerOne.score;
   let isOver = checkBoard(board.gameBoard);
-  const result = document.getElementById("winner");
-  const resetBtn = document.querySelector(".reset");
   resetBtn.style.display = "block";
   let turn = 1;
 
@@ -173,11 +173,36 @@ function play(formData) {
   });
 }
 
-document.querySelector(".gameBoard").style.display = "none";
+function newGame() {
+  document.querySelector(".gameBoard").style.display = "none";
+  document.querySelector(".newGame").style.display = "none";
+  document.querySelector(".reset").style.display = "none";
+  document.getElementById("username2").textContent = "";
+  document.getElementById("username1").textContent = "";
+  document.getElementById("winner").textContent = "";
+  document.querySelector(".reset").style.display = "none";
+}
+
+const gameBoardDom = (document.querySelector(".gameBoard").style.display =
+  "none");
+const dialog = document.querySelector("dialog");
 document.querySelector("form").addEventListener("submit", (e) => {
   e.preventDefault();
   let formData = new FormData(e.target);
   document.querySelector(".gameBoard").style.display = "grid";
+  document.querySelector(".newGame").style.display = "block";
   play(formData);
   e.target.style.display = "none";
+  document.querySelector(".newGame").addEventListener("click", () => {
+    dialog.showModal();
+  });
+  document.querySelector(".yes").addEventListener("click", () => {
+    dialog.close();
+    e.target.reset();
+    e.target.style.display = "flex";
+    newGame();
+  });
+  document.querySelector(".no").addEventListener("click", () => {
+    dialog.close();
+  });
 });
