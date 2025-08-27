@@ -7,11 +7,22 @@
 body,
 html {
   line-height: 1.5;
+  padding-top: 1rem;
+  background: linear-gradient(
+    90deg,
+    rgba(42, 123, 155, 1) 0%,
+    rgba(87, 199, 133, 1) 50%,
+    rgba(237, 221, 83, 1) 100%
+  );
+  color: white;
+}
+
+.heading {
+  font-size: clamp(2rem, calc(2rem + 1vw), 3rem);
 }
 
 .gameContainer {
   width: 30vw;
-  height: 100vh;
   justify-content: center;
   margin: auto;
   text-align: center;
@@ -24,10 +35,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-form > * {
-  flex: 1;
+  font-size: 1.5rem;
 }
 
 form > div {
@@ -37,7 +45,63 @@ form > div {
   flex-wrap: wrap;
 }
 
-form > div input {
+form > div input,
+form button,
+.reset {
   flex: 1;
-  padding: 0.2rem 0.3rem;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  border: 1px solid darkslateblue;
+  font-size: 1.2rem;
+  outline: none;
+}
+
+.reset {
+  margin: 0 auto;
+  margin: 0.5rem 0;
+  display: none;
+}
+
+form > div input:user-invalid {
+  border: 1px solid red;
+}
+
+.gameBoard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.box {
+  background-color: white;
+  aspect-ratio: 1;
+  border: 5px solid rgb(0, 183, 122);
+  border-radius: 10px;
+  font-size: clamp(2rem, calc(4rem + 0.5vw), 5rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usernames {
+  display: flex;
+  justify-content: space-between;
+  font-size: 2rem;
+}
+
+#winner {
+  width: 30vw;
+  text-align: center;
+  font-size: clamp(1rem, calc(1rem + 1vw), 3rem);
+  background-color: white;
+  margin: 0.5rem auto;
+  border-radius: 1rem;
+  display: none;
+}
+
+.afterGame {
+  display: flex;
+  width: 30vw;
+  margin: 0 auto;
+  flex-direction: column;
 }

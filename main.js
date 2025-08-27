@@ -5,31 +5,19 @@ const GameBoard = function () {
     ["_", "_", "_"],
   ];
 
-  function resetGame() {
+  this.resetGame = function () {
     this.gameBoard = [
       ["_", "_", "_"],
       ["_", "_", "_"],
       ["_", "_", "_"],
     ];
-  }
+  };
 
   this.setX = function (row, col) {
     this.gameBoard[row - 1][col - 1] = "X";
   };
   this.setO = function (row, col) {
     this.gameBoard[row - 1][col - 1] = "O";
-  };
-  this.checkPlace = function (row, col) {
-    if (
-      this.gameBoard[row - 1][col - 1] == "_" &&
-      row > 0 &&
-      row < 4 &&
-      col > 0 &&
-      col < 4
-    ) {
-      return true;
-    }
-    return false;
   };
 };
 
@@ -107,67 +95,89 @@ function checkBoard(board) {
 
 function createUser(name, number) {
   let pattern = number == 1 ? "X" : "O";
-
-  function getPosition() {
-    const input = prompt(
-      `${name}, please give the position for ${pattern} (Example: 1,3)`
-    );
-    const row = +input.split(",")[0];
-    const col = +input.split(",")[1];
-
-    return [row, col];
-  }
-
+  let score = 0;
   function win() {
     return `${name}, you are winner!
     ${pattern} wins`;
   }
   return {
     name,
-    number,
-    pattern,
-    getPosition,
     win,
+    score,
   };
 }
 
-function play() {
-  const playerOne = createUser("Kamran", 1);
-  const playerTwo = createUser("Hasan", 2);
-  const board = new GameBoard();
+function play(formData) {
+  let board = new GameBoard();
+  const playerOne = createUser(formData.get("player1"), 1);
+  const playerTwo = createUser(formData.get("player2"), 2);
+  document.getElementById("username1").textContent =
+    playerOne.name + ": " + playerOne.score;
+  document.getElementById("username2").textContent =
+    playerTwo.name + ": " + playerOne.score;
   let isOver = checkBoard(board.gameBoard);
+  const result = document.getElementById("winner");
+  const resetBtn = document.querySelector(".reset");
+  resetBtn.style.display = "block";
   let turn = 1;
-  while (!isOver().over) {
-    if (turn == 1) {
-      let position = playerOne.getPosition();
-      if (board.checkPlace(...position)) {
-        board.setX(...position);
-        turn = 2;
-      } else {
-        alert("Position is full");
-        continue;
+
+  resetBtn.addEventListener("click", () => {
+    board.resetGame();
+    document.querySelectorAll(".box").forEach((box) => {
+      box.textContent = "";
+    });
+    result.textContent = "";
+    isOver = checkBoard(board.gameBoard);
+  });
+
+  document.querySelectorAll(".box").forEach((box) => {
+    box.addEventListener("click", (e) => {
+      if (!isOver()) {
+        let position = e.target.getAttribute("data-position");
+        const row = +position.split(",")[0];
+        const column = +position.split(",")[1];
+        result.style.color = "green";
+        if (e.target.textContent == "") {
+          if (turn == 1) {
+            board.setX(row, column);
+            e.target.textContent = "X";
+            e.target.style.color = "navy";
+            turn = 2;
+          } else {
+            e.target.textContent = "O";
+            e.target.style.color = "red";
+            board.setO(row, column);
+            turn = 1;
+            console.log("Run O");
+          }
+        }
       }
-    } else {
-      let position = playerTwo.getPosition();
-      if (board.checkPlace(...position)) {
-        board.setO(...position);
-        turn = 1;
-      } else {
-        alert("Position is full");
-        continue;
+      if (isOver()) {
+        result.style.display = "block";
+        if (isOver().isWinnerX) {
+          result.textContent = playerOne.win();
+          playerOne.score++;
+        } else if (isOver().isWinnerO) {
+          result.textContent = playerTwo.win();
+          playerTwo.score++;
+        } else {
+          result.textContent = "Draw";
+          result.style.color = "gray";
+        }
+        document.getElementById("username1").textContent =
+          playerOne.name + ": " + playerOne.score;
+        document.getElementById("username2").textContent =
+          playerTwo.name + ": " + playerTwo.score;
       }
-    }
-    if (isOver().isWinnerO) {
-      alert("O is winner");
-    }
-    if (isOver().isWinnerX) {
-      alert("X is winner");
-    }
-  }
+    });
+  });
 }
 
-play();
-
+document.querySelector(".gameBoard").style.display = "none";
 document.querySelector("form").addEventListener("submit", (e) => {
+  e.preventDefault();
   let formData = new FormData(e.target);
+  document.querySelector(".gameBoard").style.display = "grid";
+  play(formData);
+  e.target.style.display = "none";
 });

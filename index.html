@@ -8,8 +8,8 @@
   </head>
   <body>
     <div class="gameContainer">
-      <h1>Tic Tac Toe</h1>
-      <form action="">
+      <h1 class="heading">Tic Tac Toe</h1>
+      <form action="/" method="get">
         <div>
           <label for="player1">Player 1</label>
           <input type="text" id="player1" name="player1" required />
@@ -20,6 +20,25 @@
         </div>
         <button>Start</button>
       </form>
+      <div class="usernames">
+        <div id="username1"></div>
+        <div id="username2"></div>
+      </div>
+      <div class="gameBoard">
+        <div class="box" data-position="1,1"></div>
+        <div class="box" data-position="1,2"></div>
+        <div class="box" data-position="1,3"></div>
+        <div class="box" data-position="2,1"></div>
+        <div class="box" data-position="2,2"></div>
+        <div class="box" data-position="2,3"></div>
+        <div class="box" data-position="3,1"></div>
+        <div class="box" data-position="3,2"></div>
+        <div class="box" data-position="3,3"></div>
+      </div>
+    </div>
+    <div class="afterGame">
+      <div id="winner"></div>
+      <button class="reset">Reset</button>
     </div>
     <script src="main.js"></script>
   </body>
