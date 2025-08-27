@@ -67,9 +67,10 @@ form > div input:user-invalid {
 }
 
 .gameBoard {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  justify-content: center;
+  grid-template-columns: repeat(3, minmax(100px, 145px));
   gap: 1rem;
+  margin: 0 auto;
 }
 
 .box {
