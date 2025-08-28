@@ -19,6 +19,7 @@ html {
 
 .heading {
   font-size: clamp(2rem, calc(2rem + 1vw), 3rem);
+  text-wrap: nowrap;
 }
 
 .gameContainer {
@@ -58,6 +59,7 @@ form button,
 
 .newGame {
   display: none;
+  margin-bottom: 1rem;
 }
 
 .reset {
@@ -72,7 +74,8 @@ form > div input:user-invalid {
 
 .gameBoard {
   justify-content: center;
-  grid-template-columns: repeat(3, minmax(100px, 145px));
+  width: 30vw;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
   gap: 1rem;
   margin: 0 auto;
 }
@@ -82,7 +85,7 @@ form > div input:user-invalid {
   aspect-ratio: 1;
   border: 5px solid rgb(0, 183, 122);
   border-radius: 10px;
-  font-size: clamp(2rem, calc(4rem + 0.5vw), 5rem);
+  font-size: clamp(1.5rem, calc(1.5rem + 5vw), 5rem);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -92,6 +95,7 @@ form > div input:user-invalid {
   display: flex;
   justify-content: space-between;
   font-size: 2rem;
+  gap: 2rem;
 }
 
 #winner {
@@ -133,4 +137,31 @@ dialog button {
 
 dialog::backdrop {
   background: rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 600px) {
+  .gameContainer {
+    width: 90vw;
+  }
+
+  .gameBoard {
+    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
+    width: 90vw;
+    gap: 1rem;
+    margin: 0 auto;
+  }
+
+  .afterGame,
+  #winner {
+    width: 90vw;
+  }
+
+  .usernames {
+    font-size: 1rem;
+  }
+
+  dialog {
+    min-width: 280px;
+  }
 }
